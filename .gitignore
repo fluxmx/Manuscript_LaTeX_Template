@@ -1,0 +1,19 @@
+.DS_Store
+/output/
+/main.pdf
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.toc
+*.ptc
+*.apx
+*.xdv
+*.synctex.gz
+__pycache__/
+*.pyc
+# Paper figures are managed separately.
+/figures/

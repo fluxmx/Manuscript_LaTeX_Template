@@ -1,0 +1,99 @@
+\section{Introduction}
+Introduce the scientific problem before describing the technical approach.
+Explain what is already established, what remains unresolved and why the
+unresolved question is consequential. A useful introduction narrows from the
+broader context to a specific hypothesis that the study can test. Use citations
+to support particular statements rather than placing a long list of references
+at the end of a general paragraph.
+
+The citation here demonstrates a numbered reference to a real publication; it
+is not evidence for the placeholder text in this template.\cite{shannon1948}
+Replace this example with literature relevant to the study. The final paragraph
+of the introduction should state the question addressed, summarize the strategy
+and identify the main contribution without repeating the abstract.
+
+\section{Results}
+\subsection{State the principal finding}
+Organize the results around scientific findings. Each subsection should make
+one clear point, describe the observation that supports it and explain the
+comparison needed to interpret it. Distinguish measured quantities from model
+predictions, and provide uncertainty alongside estimates. Table~\ref{tab:design}
+illustrates a compact three-line table without fabricated experimental values.
+
+\begin{table}[htbp]
+  \caption{Example reporting structure. Replace these labels with the quantities
+    and comparisons used in the study.}
+  \label{tab:design}
+  \centering\small
+  \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lll@{}}
+    \toprule
+    Component & Purpose & Report \\
+    \midrule
+    Reference & Comparison & Baseline \\
+    Intervention & Main test & Effect size \\
+    Control & Validation & Uncertainty \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+Keep figure legends self-contained: explain the panels, define the symbols and
+state the sample size and statistical procedure where applicable. The legend
+should allow readers to understand the display without searching through the
+methods. Use the text to explain what the evidence means, rather than repeating
+every value that is already visible in a table or figure.
+
+\subsection{Test robustness and scope}
+Describe the checks that distinguish the proposed explanation from plausible
+alternatives. Report sensitivity to experimental conditions, analysis choices
+and sampling variation. Negative or inconclusive results should be described
+with the same precision as the principal finding. State which conclusions are
+supported directly and which remain hypotheses for future work.
+
+\section{Discussion}
+Explain how the findings answer the question introduced at the beginning of the
+article. Relate the result to earlier work and make clear whether it confirms,
+extends or challenges existing understanding. Separate the demonstrated
+contribution from possible applications that have not yet been tested.
+
+Discuss limitations in concrete terms. Identify the populations, conditions or
+assumptions under which the conclusion may not hold, and explain how these
+boundaries affect interpretation. End with the scientific implication of the
+work rather than a list of every experiment performed.
+
+\section{Methods}
+\subsection{Study design and analysis}
+Describe the data, materials and procedures in enough detail to support
+reproduction. Specify inclusion criteria, preprocessing, controls and the
+analysis plan. Define notation when it first appears. For example, a generic
+empirical objective can be written as
+\begin{equation}
+  \mathcal{L}(\theta)=\frac{1}{N}\sum_{i=1}^{N}
+  \ell\bigl(f_{\theta}(x_i),y_i\bigr),
+  \label{eq:objective}
+\end{equation}
+where $N$ is the number of observations, $f_{\theta}$ is a parameterized model
+and $\ell$ is a loss function. Equation~\eqref{eq:objective} demonstrates
+mathematical typography and a cross-reference; it does not prescribe a method.
+
+\subsection{Reproducibility}
+Report software versions, parameter choices and sources of randomness. Explain
+how uncertainty was estimated and how repeated measurements were handled.
+Provide enough information to distinguish independent observations from
+technical repetitions. Move extensive derivations and secondary checks to
+supplementary material when this improves the flow of the article.
+
+\section{Data availability}
+State where the data can be accessed and describe any access restrictions.
+Replace this instruction with a repository identifier or a precise explanation.
+
+\section{Code availability}
+Provide the code location and the version associated with the reported results.
+
+\section{Acknowledgements}
+Name the funding sources and contributors who do not meet authorship criteria.
+
+\section{Author contributions}
+Describe each author's contribution using initials or names consistently.
+
+\section{Competing interests}
+Declare relevant interests or state that the authors declare no competing interests.

@@ -1,0 +1,142 @@
+% Minimal journal-inspired article style. Compile with pdfLaTeX; no system fonts required.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{simple}[2026/11/18 Minimal research article]
+% Layout is selected where this package is loaded.
+\newif\ifsimple@twocolumn
+\DeclareOption{singlecolumn}{\simple@twocolumnfalse}
+\DeclareOption{onecolumn}{\simple@twocolumnfalse}
+\DeclareOption{twocolumn}{\simple@twocolumntrue}
+\ExecuteOptions{singlecolumn}
+\ProcessOptions*\relax
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[a4paper,top=22mm,bottom=23mm,left=22mm,right=22mm,footskip=11mm]{geometry}
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{newtxtext}
+\RequirePackage{newtxmath}
+\RequirePackage{microtype}
+\RequirePackage{graphicx}
+\RequirePackage{booktabs}
+\RequirePackage{enumitem}
+\RequirePackage{titlesec}
+\RequirePackage{titletoc}
+\RequirePackage{caption}
+\RequirePackage{xcolor}
+\RequirePackage[super,sort&compress,numbers]{natbib}
+\RequirePackage{hyperref}
+\definecolor{LinkBlue}{RGB}{0,0,255}
+\hypersetup{
+  colorlinks=true,
+  allcolors=LinkBlue
+}
+% Uncomment to keep links clickable without colours or borders.
+% \hypersetup{hidelinks}
+\urlstyle{same}
+% Enter the address once; keep email links black and monospaced.
+\DeclareRobustCommand{\email}[1]{%
+  \href{mailto:#1}{\textcolor{black}{\texttt{#1}}}%
+}
+
+\setlength{\columnsep}{7mm}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0pt}
+\linespread{1.05}
+\setlength{\emergencystretch}{1em}
+\clubpenalty=10000
+\widowpenalty=10000
+\raggedbottom
+\setcounter{secnumdepth}{0}
+\titleformat{\section}{\large\bfseries}{}{0pt}{}
+\titleformat{\subsection}{\normalsize\bfseries}{}{0pt}{}
+\titleformat{\paragraph}[runin]{\normalsize\bfseries}{}{0pt}{}[.]
+\titlespacing*{\section}{0pt}{13pt plus 2pt minus 1pt}{5pt}
+\titlespacing*{\subsection}{0pt}{9pt plus 2pt minus 1pt}{3pt}
+\titlespacing*{\paragraph}{0pt}{6pt}{0.5em}
+\setlist{leftmargin=*,nosep,topsep=4pt}
+\captionsetup{font=small,labelfont=bf,labelsep=period,justification=raggedright,singlelinecheck=false,skip=6pt}
+\captionsetup[figure]{name=Fig.}
+\setlength{\textfloatsep}{12pt plus 2pt minus 2pt}
+\setlength{\floatsep}{10pt plus 2pt minus 2pt}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.8}
+\setlength{\bibsep}{3pt}
+\renewcommand{\bibfont}{\small}
+\pagestyle{plain}
+
+% Use the full available width with natural wrapping; keep \title plain text.
+\newcommand{\simple@displaytitle}{%
+  \begingroup
+    \raggedright
+    \hyphenpenalty=10000
+    \exhyphenpenalty=10000
+    \fontsize{22}{25}\selectfont\bfseries
+    \@title\par
+  \endgroup
+}
+% Standard LaTeX title/author commands; author includes affiliations and contact.
+\newcommand{\simple@titleblock}{%
+  \par\begingroup\raggedright
+  \simple@displaytitle
+  \vspace{12pt}
+  {\fontsize{11}{14}\selectfont\@author\par}
+  \endgroup\par\vspace{13pt}
+}
+% In two-column mode, defer the title until the abstract is available so
+% both can be placed in LaTeX's standard full-width opening.
+\newif\ifsimple@titlepending
+\renewcommand{\maketitle}{%
+  \ifsimple@twocolumn
+    \global\simple@titlependingtrue
+  \else
+    \simple@titleblock
+  \fi
+}
+\newcommand{\simple@abstractblock}[1]{%
+  \par\begingroup\setlength{\parindent}{0pt}%
+  \fontsize{11}{14}\selectfont\bfseries #1\par
+  \endgroup\vspace{17pt}%
+}
+\RenewDocumentEnvironment{abstract}{+b}{%
+  \ifsimple@twocolumn
+    \twocolumn[%
+      \ifsimple@titlepending\simple@titleblock\fi
+      \simple@abstractblock{#1}%
+    ]%
+    \global\simple@titlependingfalse
+  \else
+    \simple@abstractblock{#1}%
+  \fi
+}{}
+% Standard \appendix starts a full-width title and appendix-only contents page.
+% Restore the article's column layout after that page.
+\newif\ifsimple@restorecolumns
+\let\simple@originalappendix\appendix
+\renewcommand{\appendix}{%
+  \if@twocolumn
+    \simple@restorecolumnstrue
+    \onecolumn
+  \else
+    \simple@restorecolumnsfalse
+    \clearpage
+  \fi
+  \simple@originalappendix
+  \setcounter{secnumdepth}{2}%
+  \titleformat{\section}{\large\bfseries}{Appendix~\thesection}{0.6em}{}%
+  \titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.6em}{}%
+  \simple@displaytitle%
+  \vspace{12pt}%
+  {\noindent\fontsize{16}{19}\selectfont\bfseries Supplementary information\par}%
+  \begingroup
+    \titlespacing*{\section}{0pt}{8pt}{5pt}%
+    \section*{Appendix contents}%
+  \endgroup
+  \startcontents[appendix]%
+  \begingroup
+    \printcontents[appendix]{}{1}{\setcounter{tocdepth}{2}}%
+  \endgroup
+  \ifsimple@restorecolumns\twocolumn\else\clearpage\fi
+}
+\endinput

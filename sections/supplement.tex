@@ -1,0 +1,60 @@
+% Called after \appendix, which prints the title and appendix contents page.
+
+\section{Additional methods}
+\label{app:methods}
+This appendix demonstrates how supporting material follows the main article.
+Replace these instructional paragraphs with experimental details, derivations
+and supplementary analyses. The typography, citation colour and paragraph
+indentation follow the main text; page numbers continue without restarting.
+
+\subsection{Experimental protocol}
+\label{app:protocol}
+Describe the preparation of materials, the sampling procedure and any criteria
+used to exclude observations. Report the order of operations and the controls
+needed to reproduce the study. If a procedure is adapted from earlier work,
+state which steps were changed and why.
+
+Provide the details that would interrupt the main narrative but remain necessary
+for reproducibility. These may include instrument settings, preprocessing rules,
+software versions and parameter choices. Separate prespecified decisions from
+exploratory analyses, and explain how missing observations were handled.
+
+\subsection{Reporting checklist}
+Table~\ref{tab:supplement} illustrates the layout of a supplementary table.
+Table and equation numbers continue from the main article in this template.
+No extra numbering commands are required.
+
+\begin{table}[htbp]
+  \centering\small
+  \caption{Supplementary reporting checklist. This is a layout example,
+    not a record of experimental results.}
+  \label{tab:supplement}
+  \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}ll@{}}
+    \toprule
+    Item & Information to provide \\
+    \midrule
+    Data & Source and version \\
+    Sampling & Inclusion criteria \\
+    Analysis & Parameters and software \\
+    Repetition & Seeds and uncertainty \\
+    \bottomrule
+  \end{tabular*}
+\end{table}
+
+\section{Supporting derivation}
+\label{app:derivation}
+Starting from Eq.~\eqref{eq:objective}, the gradient of the empirical objective
+is, when each summand is differentiable,
+\begin{equation}
+  \nabla_{\theta}\mathcal{L}(\theta)
+  =\frac{1}{N}\sum_{i=1}^{N}
+  \nabla_{\theta}\ell\bigl(f_{\theta}(x_i),y_i\bigr).
+  \label{eq:supplement-gradient}
+\end{equation}
+This identity follows by differentiating the finite sum term by term. State any
+additional assumptions before using an analogous step in your own derivation,
+and explain how the result supports the claims in the main article.
+
+Appendix~\ref{app:methods} and Eq.~\eqref{eq:supplement-gradient} demonstrate
+linked references within the supporting material. Use the same notation as in
+the main text so that readers can move between the argument and its details.
