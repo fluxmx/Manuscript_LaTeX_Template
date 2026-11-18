@@ -52,6 +52,7 @@ Both layouts use the same `main.tex` and content files. Keep the standard `\make
 | File | Purpose |
 | --- | --- |
 | `main.tex` | Main entry point and layout option |
+| `math_commands.tex` | Shared mathematical notation and operators |
 | `metadata.tex` | Title, authors, affiliations, contribution notes, and email |
 | `frontmatter.tex` | Standard title and abstract commands |
 | `sections/abstract.tex` | Abstract text |
@@ -98,6 +99,47 @@ Do not use `\ref` to obtain a section number while headings are unnumbered.
 Include figures with `\includegraphics[width=\linewidth]{...}`. In two-column mode, use standard `figure*` and `table*` environments for full-width displays. Use PDF, PNG, or JPG graphics with pdfLaTeX.
 
 The title and abstract form a full-width opening in two-column mode. For exceptionally long author lists or abstracts, use the single-column layout.
+
+## Mathematical notation
+
+`main.tex` loads `math_commands.tex` after `simple.sty`. This file is copied unchanged
+from the user-provided ExtremePhysBench version and uses `amsmath`, `amsfonts`
+and `bm`. It provides the following notation families:
+
+| Commands | Purpose |
+| --- | --- |
+| `\R`, `\sN`, `\sZ`, `\sC` | Real numbers and other blackboard-bold sets |
+| `\E`, `\Var`, `\Cov`, `\KL` | Expectation, variance, covariance and KL divergence |
+| `\vx`, `\vy`, `\vtheta`, `\mA`, `\mSigma` | Vectors and matrices |
+| `\tA`, `\etA` | Tensors and tensor entries |
+| `\rx`, `\rvx`, `\rmA` | Random variables, vectors and matrices |
+| `\gD`, `\gL`, `\train`, `\valid`, `\test` | Calligraphic symbols and datasets |
+| `\argmin`, `\argmax`, `\sign`, `\Tr` | Mathematical operators |
+| `\ceil{x}`, `\floor{x}` | Ceiling and floor |
+| `\Figref{key}`, `\Tabref{key}`, `\Appref{key}` | References with a type prefix |
+
+For example:
+
+```latex
+\[
+  \vtheta^{\star}
+  = \argmin_{\vtheta\in\R^d}
+    \E_{(x,y)\sim\train}
+    \bigl[\ell(f_{\vtheta}(x),y)\bigr].
+\]
+```
+
+This collection redefines `\eqref{key}` to print “equation 1” rather than
+“(1)”. Use `\Eqref{key}` at the start of a sentence and `\eqref{key}` within
+a sentence. Do not prepend `Equation` or `Eq.` to these commands. For a bare
+parenthesized number, write `(\ref{key})` explicitly. The example article and
+appendix follow the supplied collection's reference conventions.
+
+Section-reference helpers require numbered sections; main-text headings are
+unnumbered by default. The imported macro collection contains other definitions
+that may overlap with another template, so check it before migration. It is
+separate from `simple.sty` and can be omitted by removing its `\input` line.
+See `THIRD_PARTY_NOTICES.md` for provenance.
 
 ## Appendix
 
