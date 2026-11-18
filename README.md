@@ -34,6 +34,22 @@ make        # Build main.pdf using the selected layout
 make clean  # Clean auxiliary files while preserving the PDF
 ```
 
+## Automatic builds on GitHub
+
+The **Build LaTeX** workflow runs on every push and pull request. You can also
+start it manually from the repository's Actions tab. It compiles `main.tex`
+with pdfLaTeX and BibTeX through `latexmk`, using TeX Live 2025 and the layout
+selected in the source.
+
+To download the PDF, open **Actions → Build LaTeX → a successful run → Artifacts →
+paper-pdf**. PDF artifacts are retained for 30 days. Failed builds upload any
+available `main.log` and `main.blg` files as `latex-logs`, retained for 7 days.
+Generated files are not committed back to the repository.
+
+The workflow can only access files present in Git. Since `figures/` is ignored
+by default, explicitly track any figures required for a cloud build, or adjust
+`.gitignore` before adding them. GitHub Actions must be enabled for the repository.
+
 ## Single-column and two-column layouts
 
 Select the layout when loading the style in `main.tex`. Use one of these lines:
