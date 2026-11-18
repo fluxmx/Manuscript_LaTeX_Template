@@ -1,10 +1,10 @@
-# My Paper Template
+# Manuscript LaTeX Template
 
 A minimal LaTeX template for English research papers, combining restrained journal typography with familiar conference-paper conventions. It is inspired by Nature and Science, but is not an official submission template for either journal.
 
 The layout uses black text, Times-style fonts, and blue citations and hyperlinks. It has no logos, project branding, coloured heading blocks, or main-text table of contents. Email addresses are black and monospaced.
 
-Repository: [fluxmx/My_Paper_Template](https://github.com/fluxmx/My_Paper_Template).
+Repository: [fluxmx/Manuscript_LaTeX_Template](https://github.com/fluxmx/Manuscript_LaTeX_Template).
 
 ## Requirements and compilation
 
@@ -42,12 +42,12 @@ with pdfLaTeX and BibTeX through `latexmk`, using TeX Live 2025 and the layout
 selected in the source.
 
 Successful builds of the current `main` commit publish `main.pdf` to a single
-rolling [Latest PDF release](https://github.com/fluxmx/My_Paper_Template/releases/tag/latest).
+rolling [Latest PDF release](https://github.com/fluxmx/Manuscript_LaTeX_Template/releases/tag/latest).
 Each successful publication replaces the existing PDF and moves the `latest`
 tag to its source commit. No per-commit PDF artifacts or release versions are
 created. Pull requests and other branches only run compilation checks.
 
-[Download the latest PDF](https://github.com/fluxmx/My_Paper_Template/releases/download/latest/main.pdf).
+[Download the latest PDF](https://github.com/fluxmx/Manuscript_LaTeX_Template/releases/download/latest/main.pdf).
 Release assets have no configured 30-day expiry; private repositories require
 repository access to download them. Failed builds leave the previous successful
 release in place and upload available diagnostic logs for 7 days. Generated
@@ -102,7 +102,7 @@ Use standard `\author`, `\textsuperscript`, and `\\` commands for the author and
 Enter each email address only once:
 
 ```latex
-\email{author@university.edu}
+\email{author@example.com}
 ```
 
 This creates a clickable `mailto:` link while keeping the displayed address black and monospaced.
@@ -126,7 +126,7 @@ The title and abstract form a full-width opening in two-column mode. For excepti
 ## Mathematical notation
 
 `main.tex` loads `math_commands.tex` after `simple.sty`. This file is copied unchanged
-from the user-provided ExtremePhysBench version and uses `amsmath`, `amsfonts`
+from the supplied macro collection and uses `amsmath`, `amsfonts`
 and `bm`. It provides the following notation families:
 
 | Commands | Purpose |
@@ -212,4 +212,7 @@ Check the current platform instructions before submitting:
 
 Generated PDFs, compilation files, and `output/` are ignored by Git. The `figures/` directory is also ignored; back up paper-specific graphics separately and include required graphics in submission packages.
 
-See [LICENSE](LICENSE) for the project's terms and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for external dependency notices.
+Original code and documentation are available under the [MIT License](LICENSE).
+The imported `math_commands.tex` collection is excluded from this license grant;
+its upstream license has not been verified. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
+for third-party terms and provenance.
