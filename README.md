@@ -41,10 +41,17 @@ start it manually from the repository's Actions tab. It compiles `main.tex`
 with pdfLaTeX and BibTeX through `latexmk`, using TeX Live 2025 and the layout
 selected in the source.
 
-To download the PDF, open **Actions → Build LaTeX → a successful run → Artifacts →
-paper-pdf**. PDF artifacts are retained for 30 days. Failed builds upload any
-available `main.log` and `main.blg` files as `latex-logs`, retained for 7 days.
-Generated files are not committed back to the repository.
+Successful builds of the current `main` commit publish `main.pdf` to a single
+rolling [Latest PDF release](https://github.com/fluxmx/My_Paper_Template/releases/tag/latest).
+Each successful publication replaces the existing PDF and moves the `latest`
+tag to its source commit. No per-commit PDF artifacts or release versions are
+created. Pull requests and other branches only run compilation checks.
+
+[Download the latest PDF](https://github.com/fluxmx/My_Paper_Template/releases/download/latest/main.pdf).
+Release assets have no configured 30-day expiry; private repositories require
+repository access to download them. Failed builds leave the previous successful
+release in place and upload available diagnostic logs for 7 days. Generated
+files are not committed back to the repository.
 
 The workflow can only access files present in Git. Since `figures/` is ignored
 by default, explicitly track any figures required for a cloud build, or adjust

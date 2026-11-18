@@ -2,6 +2,7 @@ name: Build LaTeX
 
 on:
   push:
+    branches: ['**']
   pull_request:
   workflow_dispatch:
 
@@ -10,13 +11,15 @@ permissions:
 
 concurrency:
   group: latex-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
     name: Compile main.pdf
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    permissions:
+      contents: write
     steps:
       - name: Check out source
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -30,13 +33,40 @@ jobs:
           texlive_version: '2025'
           args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode
 
-      - name: Upload PDF
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: paper-pdf
-          path: main.pdf
-          if-no-files-found: error
-          retention-days: 30
+      - name: Publish latest PDF
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Do not let a queued or manually rerun older commit replace the latest PDF.
+          current_sha=$(gh api "repos/$GH_REPO/git/ref/heads/main" --jq '.object.sha')
+          if [[ "$current_sha" != "$GITHUB_SHA" ]]; then
+            echo "Skipping publication: main has advanced beyond this commit."
+            exit 0
+          fi
+          test -s main.pdf
+          notes_file=$(mktemp)
+          printf 'Latest successful PDF build from main.\n\nSource commit: %s\nBuild: %s/%s/actions/runs/%s\n' \
+            "$GITHUB_SHA" "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID" > "$notes_file"
+          if ! gh release view latest > /dev/null 2>&1; then
+            gh release create latest --target "$GITHUB_SHA" --title "Latest PDF" \
+              --notes-file "$notes_file" --draft
+          fi
+          gh release upload latest main.pdf --clobber
+          # Keep the release source archive aligned with the PDF's source commit.
+          if gh api "repos/$GH_REPO/git/ref/tags/latest" > /dev/null 2>&1; then
+            gh api --method PATCH "repos/$GH_REPO/git/refs/tags/latest" \
+              -f sha="$GITHUB_SHA" -F force=true > /dev/null
+          else
+            gh api --method POST "repos/$GH_REPO/git/refs" \
+              -f ref=refs/tags/latest -f sha="$GITHUB_SHA" > /dev/null
+          fi
+          gh release edit latest --title "Latest PDF" --notes-file "$notes_file" \
+            --draft=false --latest
+          rm "$notes_file"
 
       - name: Upload diagnostic logs on failure
         if: failure()
