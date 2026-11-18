@@ -73,7 +73,9 @@ Enter the title as continuous text with normal spaces:
 
 Avoid manual line breaks (`\\`) or nonbreaking spaces inside the title. It uses the full available width, aligns left, and wraps naturally without forcing balanced line lengths. Actual arXiv HTML conversion should still be checked during submission.
 
-Use standard `\author`, `\textsuperscript`, and `\\` commands for the author and affiliation block. Enter each email address only once:
+Use standard `\author`, `\textsuperscript`, and `\\` commands for the author and affiliation block. Keep all affiliation lines in one `\small` group and end its paragraph with `\endgraf` before closing the group, as in `metadata.tex`. This keeps every affiliation line at the same line spacing. Use the same pattern for the `\footnotesize` contribution and contact block. Inside `\author`, use `\endgraf` instead of a literal `\par`.
+
+Enter each email address only once:
 
 ```latex
 \email{author@university.edu}
