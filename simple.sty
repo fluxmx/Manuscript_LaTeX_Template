@@ -3,6 +3,8 @@
 \ProvidesPackage{simple}[2026/11/18 Minimal research article]
 % Layout is selected where this package is loaded.
 \newif\ifsimple@twocolumn
+\newif\ifsimple@linenumbers
+\DeclareOption{linenumbers}{\simple@linenumberstrue}
 \DeclareOption{singlecolumn}{\simple@twocolumnfalse}
 \DeclareOption{onecolumn}{\simple@twocolumnfalse}
 \DeclareOption{twocolumn}{\simple@twocolumntrue}
@@ -24,6 +26,11 @@
 \RequirePackage{caption}
 \RequirePackage{xcolor}
 \RequirePackage[super,sort&compress,numbers]{natbib}
+% Load line numbering only when requested; lineno v5 supports amsmath.
+\ifsimple@linenumbers
+  \RequirePackage{lineno}[2023/01/19]
+  \renewcommand{\linenumberfont}{\normalfont\tiny\sffamily}
+\fi
 \RequirePackage{hyperref}
 \definecolor{LinkBlue}{RGB}{0,0,255}
 \hypersetup{
@@ -79,6 +86,7 @@
 % Standard LaTeX title/author commands; author includes affiliations and contact.
 \newcommand{\simple@titleblock}{%
   \par\begingroup\raggedright
+  \ifsimple@linenumbers\nolinenumbers\fi
   \simple@displaytitle
   \vspace{12pt}
   {\fontsize{11}{14}\selectfont\@author\par}
@@ -96,6 +104,7 @@
 }
 \newcommand{\simple@abstractblock}[1]{%
   \par\begingroup\setlength{\parindent}{0pt}%
+  \ifsimple@linenumbers\nolinenumbers\fi
   \fontsize{11}{14}\selectfont\bfseries #1\par
   \endgroup\vspace{17pt}%
 }
@@ -110,11 +119,17 @@
     \simple@abstractblock{#1}%
   \fi
 }{}
+% Activate before the two-column opening enters the output routine.
+\ifsimple@linenumbers
+  \AtBeginDocument{\linenumbers}
+\fi
 % Standard \appendix starts a full-width title and appendix-only contents page.
 % Restore the article's column layout after that page.
 \newif\ifsimple@restorecolumns
 \let\simple@originalappendix\appendix
 \renewcommand{\appendix}{%
+  \par
+  \ifsimple@linenumbers\nolinenumbers\fi
   \if@twocolumn
     \simple@restorecolumnstrue
     \onecolumn
@@ -138,5 +153,6 @@
     \printcontents[appendix]{}{1}{\setcounter{tocdepth}{2}}%
   \endgroup
   \ifsimple@restorecolumns\twocolumn\else\clearpage\fi
+  \ifsimple@linenumbers\linenumbers\fi
 }
 \endinput

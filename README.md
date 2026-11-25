@@ -70,6 +70,22 @@ Without options, `\usepackage{simple}` defaults to a single column. `onecolumn` 
 
 Both layouts use the same `main.tex` and content files. Keep the standard `\maketitle` followed by the `abstract` environment; the style arranges the full-width opening automatically. There is no need to insert `\twocolumn` manually or maintain a second main file.
 
+## Optional line numbers
+
+Line numbers are disabled by default. Add `linenumbers` to the style options
+for a review copy:
+
+```latex
+\usepackage[singlecolumn,linenumbers]{simple}
+% Or: \usepackage[twocolumn,linenumbers]{simple}
+```
+
+Numbering starts at the main text after the abstract and continues across pages
+and into the appendix. The title, author block, abstract, and appendix contents
+page are not numbered. Floating figures and tables are not line-numbered.
+Remove `linenumbers` to return to the default layout. This optional feature uses
+`lineno` version 5 or later, with built-in support for `amsmath`.
+
 ## Files to edit
 
 | File | Purpose |
